@@ -94,9 +94,9 @@ class App extends React.Component {
       cardDescription: '',
       cardImage: '',
       cardRare: '',
-      cardAttr1: '',
-      cardAttr2: '',
-      cardAttr3: '',
+      cardAttr1: '0',
+      cardAttr2: '0',
+      cardAttr3: '0',
       hasTrunfo: cardTrunfo,
       cardTrunfo: false,
     }));
