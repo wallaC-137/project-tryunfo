@@ -102,16 +102,6 @@ class App extends React.Component {
     }));
   };
 
-  // teste = () => {
-    // const { saveCard, hasTrunfo } = this.state;
-    // const aa = saveCard.map((a) => a.includes('cardTrunfo: false'));
-    // this.setState({
-    // hasTrunfo: aa,
-    // });
-    // const save = saveCard.some(({ cardTrunfo }) => cardTrunfo === true);
-    // this.setState({ hasTrunfo: false });
-  // };
-
   render() {
     const {
       cardName,
@@ -154,7 +144,6 @@ class App extends React.Component {
           cardTrunfo={ cardTrunfo }
           onInputChange={ this.onInputChange }
         />
-        {/* { console.log(this.teste()) } */}
       </div>
     );
   }
