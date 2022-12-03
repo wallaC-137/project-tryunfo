@@ -18,6 +18,7 @@ class App extends React.Component {
     cardRare: '',
     cardTrunfo: false,
     isSaveButtonDisabled: true,
+    saveCard: [],
   };
 
   onInputChange({ target }) {
@@ -56,11 +57,39 @@ class App extends React.Component {
     });
   };
 
-  // onSaveButtonClick = (param) => {
-  //   param.preventDefault();
-  //   const { cardName, cardImage, cardDescription,
-  //   cardAttr1, cardAttr2, cardAttr3, cardRare, cardTrunfo } = this.state;
-  // };
+  onSaveButtonClick = (param) => {
+    param.preventDefault();
+    const {
+      cardName,
+      cardImage,
+      cardDescription,
+      cardAttr1,
+      cardAttr2,
+      cardAttr3,
+      cardRare,
+    } = this.state;
+
+    const cardInformation = {
+      cardName,
+      cardDescription,
+      cardImage,
+      cardRare,
+      cardAttr1,
+      cardAttr2,
+      cardAttr3,
+    };
+
+    this.setState(({ saveCard }) => ({
+      saveCard: [...saveCard, cardInformation],
+      cardName: '',
+      cardDescription: '',
+      cardImage: '',
+      cardRare: '',
+      cardAttr1: 0,
+      cardAttr2: 0,
+      cardAttr3: 0,
+    }));
+  };
 
   render() {
     const {
@@ -89,7 +118,7 @@ class App extends React.Component {
           cardTrunfo={ cardTrunfo }
           onInputChange={ this.onInputChange }
           isSaveButtonDisabled={ isSaveButtonDisabled }
-          // onSaveButtonClick={ this.onSaveButtonClick }
+          onSaveButtonClick={ this.onSaveButtonClick }
         />
         <Card
           cardName={ cardName }
