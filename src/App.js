@@ -1,6 +1,7 @@
 import React from 'react';
 import Form from './components/Form';
 import Card from './components/Card';
+import Button from './components/Button';
 
 class App extends React.Component {
   constructor() {
@@ -99,7 +100,27 @@ class App extends React.Component {
       cardAttr3: '0',
       hasTrunfo: cardTrunfo,
       cardTrunfo: false,
+      isSaveButtonDisabled: true,
     }));
+  };
+
+  removeCard = (name, trunfo) => {
+    const { saveCard } = this.state;
+    console.log(name, trunfo);
+    if (trunfo) {
+      const newSaveList = saveCard.filter((a) => a.cardTrunfo !== trunfo);
+      this.setState({
+        saveCard: [...newSaveList],
+        hasTrunfo: false,
+        cardTrunfo: false,
+      });
+    } else {
+      const newSaveList = saveCard.filter((a) => a.cardName !== name);
+      this.setState({
+        saveCard: [...newSaveList],
+      });
+    }
+    // this.setState({ saveCard: newSaveList });
   };
 
   render() {
@@ -145,21 +166,31 @@ class App extends React.Component {
           cardTrunfo={ cardTrunfo }
           onInputChange={ this.onInputChange }
         />
-        {
-          saveCard.map((cardSaved) => (
-            <Card
-              key={ cardSaved.cardName }
-              cardName={ cardSaved.cardName }
-              cardDescription={ cardSaved.cardDescription }
-              cardAttr1={ cardSaved.cardAttr1 }
-              cardAttr2={ cardSaved.cardAttr2 }
-              cardAttr3={ cardSaved.cardAttr3 }
-              cardImage={ cardSaved.cardImage }
-              cardRare={ cardSaved.cardRare }
-              hasTrunfo={ cardSaved.hasTrunfo }
-            />
-          ))
-        }
+        <ul>
+          {
+            saveCard.map((cardSaved) => (
+              <li key={ cardSaved.cardName }>
+                <Card
+                  key={ cardSaved.cardName }
+                  cardName={ cardSaved.cardName }
+                  cardDescription={ cardSaved.cardDescription }
+                  cardAttr1={ cardSaved.cardAttr1 }
+                  cardAttr2={ cardSaved.cardAttr2 }
+                  cardAttr3={ cardSaved.cardAttr3 }
+                  cardImage={ cardSaved.cardImage }
+                  cardRare={ cardSaved.cardRare }
+                  hasTrunfo={ cardSaved.hasTrunfo }
+                  cardTrunfo={ cardSaved.cardTrunfo }
+                />
+                <Button
+                  removeCard={ this.removeCard }
+                  cardName={ cardSaved.cardName }
+                  cardTrunfo={ cardSaved.cardTrunfo }
+                />
+              </li>
+            ))
+          }
+        </ul>
       </div>
     );
   }
