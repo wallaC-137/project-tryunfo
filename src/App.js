@@ -24,6 +24,7 @@ class App extends React.Component {
     saveCard: [],
     nameFilter: '',
     selectFilter: 'todas',
+    trunfoFilter: false,
   };
 
   onInputChange({ target }) {
@@ -92,8 +93,8 @@ class App extends React.Component {
       hasTrunfo,
     };
 
-    this.setState(({ saveCard }) => ({
-      saveCard: [...saveCard, cardInformation],
+    this.setState((w) => ({
+      saveCard: [...w.saveCard, cardInformation],
       cardName: '',
       cardDescription: '',
       cardImage: '',
@@ -101,7 +102,7 @@ class App extends React.Component {
       cardAttr1: '0',
       cardAttr2: '0',
       cardAttr3: '0',
-      hasTrunfo: cardTrunfo,
+      hasTrunfo: w.hasTrunfo || cardTrunfo,
       cardTrunfo: false,
       isSaveButtonDisabled: true,
     }));
@@ -109,7 +110,7 @@ class App extends React.Component {
 
   removeCard = (name, trunfo) => {
     const { saveCard } = this.state;
-    console.log(name, trunfo);
+
     if (trunfo) {
       const newSaveList = saveCard.filter((a) => a.cardTrunfo !== trunfo);
       this.setState({
@@ -126,10 +127,10 @@ class App extends React.Component {
   };
 
   inputFilter = ({ target }) => {
-    const { value, name } = target;
-    console.log(name, value);
+    const { value, name, type, checked } = target;
+
     this.setState({
-      [name]: value,
+      [name]: type === 'checkbox' ? checked : value,
     });
   };
 
@@ -148,6 +149,7 @@ class App extends React.Component {
       saveCard,
       nameFilter,
       selectFilter,
+      trunfoFilter,
     } = this.state;
 
     return (
@@ -178,11 +180,17 @@ class App extends React.Component {
           cardTrunfo={ cardTrunfo }
           onInputChange={ this.onInputChange }
         />
-        <Filter inputFilter={ this.inputFilter } />
+        <Filter
+          inputFilter={ this.inputFilter }
+          trunfoFilter={ trunfoFilter }
+          nameFilter={ nameFilter }
+          selectFilter={ selectFilter }
+        />
         <ul>
           {
             saveCard
               .filter((n) => n.cardName.toLowerCase().includes(nameFilter.toLowerCase()))
+              .filter((st) => (trunfoFilter ? st.cardTrunfo === true : st))
               .filter((s) => (selectFilter !== 'todas' ? s.cardRare === selectFilter : s))
               .map((cardSaved) => (
                 <li key={ cardSaved.cardName }>
