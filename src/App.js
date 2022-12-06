@@ -23,6 +23,7 @@ class App extends React.Component {
     isSaveButtonDisabled: true,
     saveCard: [],
     nameFilter: '',
+    selectFilter: 'todas',
   };
 
   onInputChange({ target }) {
@@ -125,10 +126,10 @@ class App extends React.Component {
   };
 
   inputFilter = ({ target }) => {
-    const filterByName = target.value;
-
+    const { value, name } = target;
+    console.log(name, value);
     this.setState({
-      nameFilter: filterByName,
+      [name]: value,
     });
   };
 
@@ -146,6 +147,7 @@ class App extends React.Component {
       isSaveButtonDisabled,
       saveCard,
       nameFilter,
+      selectFilter,
     } = this.state;
 
     return (
@@ -180,7 +182,8 @@ class App extends React.Component {
         <ul>
           {
             saveCard
-              .filter((w) => w.cardName.toLowerCase().includes(nameFilter.toLowerCase()))
+              .filter((n) => n.cardName.toLowerCase().includes(nameFilter.toLowerCase()))
+              .filter((s) => (selectFilter !== 'todas' ? s.cardRare === selectFilter : s))
               .map((cardSaved) => (
                 <li key={ cardSaved.cardName }>
                   <Card
