@@ -2,6 +2,7 @@ import React from 'react';
 import Form from './components/Form';
 import Card from './components/Card';
 import Button from './components/Button';
+import Filter from './components/Filter';
 
 class App extends React.Component {
   constructor() {
@@ -21,6 +22,7 @@ class App extends React.Component {
     hasTrunfo: false,
     isSaveButtonDisabled: true,
     saveCard: [],
+    nameFilter: '',
   };
 
   onInputChange({ target }) {
@@ -42,8 +44,8 @@ class App extends React.Component {
     } = this.state;
 
     const testOne = cardName.length > 0
-    && cardDescription.length > 0
-    && cardImage.length > 0;
+      && cardDescription.length > 0
+      && cardImage.length > 0;
 
     const equal = 210;
     const testTwo = Number(cardAttr1)
@@ -120,7 +122,14 @@ class App extends React.Component {
         saveCard: [...newSaveList],
       });
     }
-    // this.setState({ saveCard: newSaveList });
+  };
+
+  inputFilter = ({ target }) => {
+    const filterByName = target.value;
+
+    this.setState({
+      nameFilter: filterByName,
+    });
   };
 
   render() {
@@ -136,6 +145,7 @@ class App extends React.Component {
       hasTrunfo,
       isSaveButtonDisabled,
       saveCard,
+      nameFilter,
     } = this.state;
 
     return (
@@ -166,29 +176,32 @@ class App extends React.Component {
           cardTrunfo={ cardTrunfo }
           onInputChange={ this.onInputChange }
         />
+        <Filter inputFilter={ this.inputFilter } />
         <ul>
           {
-            saveCard.map((cardSaved) => (
-              <li key={ cardSaved.cardName }>
-                <Card
-                  key={ cardSaved.cardName }
-                  cardName={ cardSaved.cardName }
-                  cardDescription={ cardSaved.cardDescription }
-                  cardAttr1={ cardSaved.cardAttr1 }
-                  cardAttr2={ cardSaved.cardAttr2 }
-                  cardAttr3={ cardSaved.cardAttr3 }
-                  cardImage={ cardSaved.cardImage }
-                  cardRare={ cardSaved.cardRare }
-                  hasTrunfo={ cardSaved.hasTrunfo }
-                  cardTrunfo={ cardSaved.cardTrunfo }
-                />
-                <Button
-                  removeCard={ this.removeCard }
-                  cardName={ cardSaved.cardName }
-                  cardTrunfo={ cardSaved.cardTrunfo }
-                />
-              </li>
-            ))
+            saveCard
+              .filter((w) => w.cardName.toLowerCase().includes(nameFilter.toLowerCase()))
+              .map((cardSaved) => (
+                <li key={ cardSaved.cardName }>
+                  <Card
+                    key={ cardSaved.cardName }
+                    cardName={ cardSaved.cardName }
+                    cardDescription={ cardSaved.cardDescription }
+                    cardAttr1={ cardSaved.cardAttr1 }
+                    cardAttr2={ cardSaved.cardAttr2 }
+                    cardAttr3={ cardSaved.cardAttr3 }
+                    cardImage={ cardSaved.cardImage }
+                    cardRare={ cardSaved.cardRare }
+                    hasTrunfo={ cardSaved.hasTrunfo }
+                    cardTrunfo={ cardSaved.cardTrunfo }
+                  />
+                  <Button
+                    removeCard={ this.removeCard }
+                    cardName={ cardSaved.cardName }
+                    cardTrunfo={ cardSaved.cardTrunfo }
+                  />
+                </li>
+              ))
           }
         </ul>
       </div>
