@@ -3,6 +3,7 @@ import Form from './components/Form';
 import Card from './components/Card';
 import Button from './components/Button';
 import Filter from './components/Filter';
+import style from './components/app.module.css';
 
 class App extends React.Component {
   constructor() {
@@ -136,16 +137,6 @@ class App extends React.Component {
 
   render() {
     const {
-      cardName,
-      cardDescription,
-      cardAttr1,
-      cardAttr2,
-      cardAttr3,
-      cardImage,
-      cardRare,
-      cardTrunfo,
-      hasTrunfo,
-      isSaveButtonDisabled,
       saveCard,
       nameFilter,
       selectFilter,
@@ -156,35 +147,17 @@ class App extends React.Component {
       <div>
         <h1>Tryunfo</h1>
         <Form
-          cardName={ cardName }
-          cardDescription={ cardDescription }
-          cardAttr1={ cardAttr1 }
-          cardAttr2={ cardAttr2 }
-          cardAttr3={ cardAttr3 }
-          cardImage={ cardImage }
-          cardRare={ cardRare }
-          cardTrunfo={ cardTrunfo }
-          hasTrunfo={ hasTrunfo }
+          { ...this.state }
           onInputChange={ this.onInputChange }
-          isSaveButtonDisabled={ isSaveButtonDisabled }
           onSaveButtonClick={ this.onSaveButtonClick }
         />
         <Card
-          cardName={ cardName }
-          cardDescription={ cardDescription }
-          cardAttr1={ cardAttr1 }
-          cardAttr2={ cardAttr2 }
-          cardAttr3={ cardAttr3 }
-          cardImage={ cardImage }
-          cardRare={ cardRare }
-          cardTrunfo={ cardTrunfo }
+          { ...this.state }
           onInputChange={ this.onInputChange }
         />
         <Filter
+          { ...this.state }
           inputFilter={ this.inputFilter }
-          trunfoFilter={ trunfoFilter }
-          nameFilter={ nameFilter }
-          selectFilter={ selectFilter }
         />
         <ul>
           {
@@ -193,23 +166,13 @@ class App extends React.Component {
               .filter((st) => (trunfoFilter ? st.cardTrunfo === true : st))
               .filter((s) => (selectFilter !== 'todas' ? s.cardRare === selectFilter : s))
               .map((cardSaved) => (
-                <li key={ cardSaved.cardName }>
+                <li key={ cardSaved.cardName } className={ style.foi }>
                   <Card
-                    key={ cardSaved.cardName }
-                    cardName={ cardSaved.cardName }
-                    cardDescription={ cardSaved.cardDescription }
-                    cardAttr1={ cardSaved.cardAttr1 }
-                    cardAttr2={ cardSaved.cardAttr2 }
-                    cardAttr3={ cardSaved.cardAttr3 }
-                    cardImage={ cardSaved.cardImage }
-                    cardRare={ cardSaved.cardRare }
-                    hasTrunfo={ cardSaved.hasTrunfo }
-                    cardTrunfo={ cardSaved.cardTrunfo }
+                    { ...cardSaved }
                   />
                   <Button
+                    { ...cardSaved }
                     removeCard={ this.removeCard }
-                    cardName={ cardSaved.cardName }
-                    cardTrunfo={ cardSaved.cardTrunfo }
                   />
                 </li>
               ))
